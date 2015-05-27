@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_value">
+        <item>gps</item>
+        <item>wifi</item>
+        <item>question</item>
+        <item>none</item>
+    </string-array>
+    <string-array name="routetype_value">
+        <item>auto</item>
+        <item>fastest</item>
+        <item>shortest</item>
+    </string-array>
+    <string-array name="pref_desc">
+        <item>GPS on startup</item>
+        <item>WLAN on startup</item>
+        <item>Dialog</item>
+        <item>No Action</item>
+    </string-array>
+    <string-array name="listcontextmenu">
+        <item>Share</item>
+        <item>take in calendar</item>
+        <item>Details</item>
+    </string-array>
+    <string-array name="routetype_desc">
+        <item>Automatic</item>
+        <item>Fastest</item>
+        <item>Shortest</item>
+    </string-array>
+</resources>

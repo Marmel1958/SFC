@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#ff000000</color>
+    <color name="green">#ff008000</color>
+    <color name="red">#ffff0000</color>
+    <color name="marmel">#ff880000</color>
+    <color name="tab">#ff33b5e5</color>
+    <color name="tabtext">#ffffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="yellow_transparent">#65ffff00</color>
+</resources>

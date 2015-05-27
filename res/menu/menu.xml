@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:myapp="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@android:drawable/ic_menu_mylocation" android:id="@+id/selfPoint" android:title="@string/menu_selfpoint" />
+    <item android:id="@+id/routing" android:title="@string/routing" android:enabled="false"/>
+    <item android:icon="@android:drawable/ic_menu_mapmode" android:id="@+id/gmaps" android:title="@string/gmaps" />
+    <item android:icon="@android:drawable/ic_menu_mapmode" android:id="@+id/website" android:title="@string/menu_webseite" android:enabled="false"/>
+    <item android:icon="@android:drawable/ic_menu_share" android:id="@+id/share" android:title="@string/menu_share" android:enabled="false"/>
+    <item android:icon="@android:drawable/ic_menu_preferences" android:id="@+id/mySettings" android:title="@string/menu_settings" android:enabled="false"/>
+    <item android:icon="@android:drawable/ic_menu_help" android:id="@+id/help" android:title="@string/menu_help" />
+    <item android:icon="@android:drawable/ic_menu_info_details" android:id="@+id/info" android:title="@string/menu_info" />
+    <item android:icon="@android:drawable/ic_menu_close_clear_cancel" android:id="@+id/exit" android:title="@string/menu_exit" />
+</menu>

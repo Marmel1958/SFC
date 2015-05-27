@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:scrollbars="vertical" >
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <TextView
+        android:id="@+id/textViewList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5.0dip"
+        android:layout_marginRight="5.0dip"
+        android:layout_marginTop="5.0dip"
+        android:background="@color/yellow_transparent"
+        android:clickable="true"
+        android:minHeight="35.0dip"
+        android:onClick="toPoint"
+        android:paddingRight="35.0dip"
+        android:textAppearance="?android:textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textViewList_Sub"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/textViewList"
+        android:layout_marginLeft="5.0dip"
+        android:layout_marginRight="5.0dip"
+        android:background="@color/yellow_transparent"
+        android:clickable="true"
+        android:minHeight="35.0dip"
+        android:onClick="toPoint"
+        android:paddingRight="35.0dip"
+        android:textAppearance="?android:textAppearanceSmall" />
+
+    <ImageButton
+        android:id="@+id/imageButtonDown"
+        android:layout_width="30.0dip"
+        android:layout_height="30.0dip"
+        android:layout_alignRight="@id/textViewList"
+        android:layout_alignTop="@id/textViewList"
+        android:background="@color/transparent"
+        android:contentDescription="@string/down"
+        android:onClick="buttonDownClick"
+        android:scaleType="centerInside"
+        android:src="@drawable/expander_ic_maximized"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/imageButtonUp"
+        android:layout_width="30.0dip"
+        android:layout_height="30.0dip"
+        android:layout_alignBottom="@id/textViewList_Sub"
+        android:layout_alignRight="@id/textViewList"
+        android:background="@color/transparent"
+        android:contentDescription="@string/up"
+        android:scaleType="centerInside"
+        android:src="@drawable/expander_ic_minimized"
+        android:visibility="invisible" />
+
+</RelativeLayout>

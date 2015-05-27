@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_desc">
+        <item>GPS ein bei Start</item>
+        <item>WLAN ein bei Start</item>
+        <item>Dialog</item>
+        <item>Keine Aktion</item>
+    </string-array>
+    <string-array name="listcontextmenu">
+        <item>Teilen</item>
+        <item>In Kalender übernehmen</item>
+        <item>Details</item>
+    </string-array>
+    <string-array name="routetype_desc">
+        <item>Automatic</item>
+        <item>Schnellste</item>
+        <item>Kürzeste</item>
+    </string-array>
+</resources>
