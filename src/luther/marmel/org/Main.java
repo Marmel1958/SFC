@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,12 +34,14 @@ public class Main extends Activity implements ActionBar.TabListener {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-
+	CustomSQLiteOpenHelper sql=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
+        String path = getFilesDir().getParent()+"/databases/";
+        String file = path+"luther.db";
+        CustomSQLiteOpenHelper.CreateDataBase(this,path,file);
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -73,6 +76,10 @@ public class Main extends Activity implements ActionBar.TabListener {
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+        sql=new CustomSQLiteOpenHelper(this);
+		Cursor lc=sql.getLocationCursor();
+		mapFragment.setEventLocations(lc);
+		lc.close();
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -22,23 +23,26 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class MapFragment extends Fragment {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private boolean autoLocation = false;
 	private boolean visible = false;
-	private GeoPoint lastGeoPoint=null;
+	private GeoPoint lastGeoPoint = null;
+
 	public GeoPoint getLastGeoPoint() {
 		return lastGeoPoint;
 	}
-	private void setLastGeoPoint(GeoPoint lastGeoPoint){
-		this.lastGeoPoint=lastGeoPoint;
+
+	private void setLastGeoPoint(GeoPoint lastGeoPoint) {
+		this.lastGeoPoint = lastGeoPoint;
 	}
+
 	public boolean isAutoLocation() {
 		return autoLocation;
 	}
@@ -47,6 +51,19 @@ public class MapFragment extends Fragment {
 		this.autoLocation = autolocation;
 	}
 
+	public void setEventLocations(Cursor cursor) {
+		if (cursor.moveToFirst()) {
+			do {
+				OverlayItem oItem = new OverlayItem(cursor.getString(cursor
+						.getColumnIndex("Ort")), cursor.getString(cursor
+						.getColumnIndex("Ort")), new GeoPoint(
+						cursor.getDouble(cursor.getColumnIndex("Latitude")),
+						cursor.getDouble(cursor.getColumnIndex("Longitude"))));
+				overlayItemArray.add(oItem);
+			} while (cursor.moveToNext());
+		}
+	}
+	Context context;
 	public static MapFragment newInstance(int sectionNumber) {
 		MapFragment fragment = new MapFragment();
 		Bundle args = new Bundle();
@@ -63,22 +80,23 @@ public class MapFragment extends Fragment {
 
 	LocationManager locationManager;
 
-	ArrayList<OverlayItem> overlayItemArray;
-	ArrayList<OverlayItem> anotherOverlayItemArray;
+	ArrayList<OverlayItem> overlayItemArray = new ArrayList<OverlayItem>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.maps, container, false);
+		context=this.getActivity();
+		overlayItemArray.add(new OverlayItem("", "", new GeoPoint(0, 0)));
 		map = (MapView) rootView.findViewById(R.id.mapview);
 		map.setTileSource(TileSourceFactory.MAPNIK);
 		map.setBuiltInZoomControls(true);
 		map.setMultiTouchControls(true);
 		myMapController = (MapController) map.getController();
-		myMapController.setZoom(12);
+		myMapController.setZoom(15);
 		createAutoCurrent();
 
-		setLocation(51.86, 12.635);
+		setLocation(51.866323, 12.64354);
 		// Add Scale Bar
 		ScaleBarOverlay myScaleBarOverlay = new ScaleBarOverlay(
 				this.getActivity());
@@ -88,13 +106,13 @@ public class MapFragment extends Fragment {
 
 	public void setLocation(double lat, double lon) {
 		setLastGeoPoint(new GeoPoint(lat, lon));
-		myMapController.setCenter(getLastGeoPoint());
+		myMapController.setCenter(new GeoPoint(lat, lon));
 	}
 
 	private void createAutoCurrent() {
-		overlayItemArray = new ArrayList<OverlayItem>();
 		DefaultResourceProxyImpl defaultResourceProxyImpl = new DefaultResourceProxyImpl(
 				this.getActivity());
+
 		MyItemizedIconOverlay myItemizedIconOverlay = new MyItemizedIconOverlay(
 				overlayItemArray, null, defaultResourceProxyImpl);
 		map.getOverlays().add(myItemizedIconOverlay);
@@ -143,11 +161,11 @@ public class MapFragment extends Fragment {
 			locationManager.removeUpdates(myLocationListener);
 		}
 	}
-	
+
 	private void updateLoc(Location loc) {
 		GeoPoint locGeoPoint = new GeoPoint(loc.getLatitude(),
 				loc.getLongitude());
-		if (isAutoLocation() || visible){
+		if (isAutoLocation() || visible) {
 			setLastGeoPoint(locGeoPoint);
 			myMapController.setCenter(locGeoPoint);
 		}
@@ -164,12 +182,11 @@ public class MapFragment extends Fragment {
 	private void setOverlayLoc(Location overlayloc) {
 		GeoPoint overlocGeoPoint = new GeoPoint(overlayloc);
 		// ---
-		overlayItemArray.clear();
 
 		OverlayItem newMyLocationItem = new OverlayItem(
 				getString(R.string.menu_selfpoint),
 				getString(R.string.menu_selfpoint), overlocGeoPoint);
-		overlayItemArray.add(newMyLocationItem);
+		overlayItemArray.set(0, newMyLocationItem);
 		// ---
 	}
 
@@ -198,7 +215,8 @@ public class MapFragment extends Fragment {
 	};
 
 	private class MyItemizedIconOverlay extends
-			ItemizedIconOverlay<OverlayItem> {
+
+	ItemizedIconOverlay<OverlayItem> {
 
 		public MyItemizedIconOverlay(
 				List<OverlayItem> pList,
@@ -222,17 +240,19 @@ public class MapFragment extends Fragment {
 
 				Bitmap bm = BitmapFactory.decodeResource(getResources(),
 						R.drawable.ic_menu_mylocation);
-				canvas.drawBitmap(bm, out.x - bm.getWidth() / 2, // shift the
+				canvas.drawBitmap(bm, out.x - bm.getWidth() / 2, // shift
+																	// the
 																	// bitmap
 																	// center
-						out.y - bm.getHeight() / 2, // shift the bitmap center
+						out.y - bm.getHeight() / 2, // shift the bitmap
+													// center
 						null);
+
 			}
 		}
 
-		@Override
-		public boolean onSingleTapUp(MotionEvent event, MapView mapView) {
-			// return super.onSingleTapUp(event, mapView);
+		@Override protected boolean onTap(int index){
+			Toast.makeText(context, overlayItemArray.get(index).getTitle(), Toast.LENGTH_LONG).show();
 			return true;
 		}
 	}
